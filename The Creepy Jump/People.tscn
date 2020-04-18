@@ -1,0 +1,97 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://art/Girl1.png" type="Texture" id=1]
+[ext_resource path="res://People.gd" type="Script" id=2]
+[ext_resource path="res://art/help_1.png" type="Texture" id=3]
+[ext_resource path="res://art/help_2.png" type="Texture" id=4]
+[ext_resource path="res://art/thank.png" type="Texture" id=5]
+[ext_resource path="res://art/girl4.png" type="Texture" id=6]
+[ext_resource path="res://art/knife_need.png" type="Texture" id=7]
+[ext_resource path="res://art/girl2_1.png" type="Texture" id=8]
+[ext_resource path="res://art/girl2_2.png" type="Texture" id=9]
+[ext_resource path="res://art/girl3_1.png" type="Texture" id=10]
+[ext_resource path="res://art/girl3_2.png" type="Texture" id=11]
+[ext_resource path="res://art/marry.png" type="Texture" id=12]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "girl1_1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "girl2_2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "girl2_1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "girl1_2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "girl3_1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "girl3_2",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9.75792, 13.829 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "knife_need",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "greeting",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "marry",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "help",
+"speed": 5.0
+} ]
+
+[node name="People" type="Area2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.3, 0.3 )
+frames = SubResource( 1 )
+animation = "girl1_1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.38393, 23.551 )
+shape = SubResource( 2 )
+
+[node name="Message" type="AnimatedSprite" parent="."]
+position = Vector2( -25.5273, -37.4107 )
+scale = Vector2( 0.335061, 0.31081 )
+frames = SubResource( 3 )
+animation = "marry"
+speed_scale = 0.2
+[connection signal="body_entered" from="." to="." method="_on_People_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_People_body_exited"]

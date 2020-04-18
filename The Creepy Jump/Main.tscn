@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Deck.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Camera.gd" type="Script" id=4]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Obstacle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Coin.tscn" type="PackedScene" id=7]
+[ext_resource path="res://People.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Weapon.tscn" type="PackedScene" id=9]
+[ext_resource path="res://music/House In a Forest Loop.ogg" type="AudioStream" id=10]
+[ext_resource path="res://music/gameover.wav" type="AudioStream" id=11]
+[ext_resource path="res://music/finish_sound.wav" type="AudioStream" id=12]
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+Deck = ExtResource( 3 )
+Obstacle = ExtResource( 6 )
+Coin = ExtResource( 7 )
+People = ExtResource( 8 )
+Weapon = ExtResource( 9 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+z_index = 1
+
+[node name="PlayerPosition" type="Position2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 480, 720 )
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
+margin_right = 725.0
+margin_bottom = 1062.0
+color = Color( 0.133333, 0.4, 0.407843, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+script = ExtResource( 4 )
+Player = NodePath("../Player")
+
+[node name="DeckTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="Deck" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="BaseDeckPosition" type="Position2D" parent="."]
+position = Vector2( 0, 80 )
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
+[node name="ObstacleTimer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="ScoreTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="CoinTimer" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="LevelUpTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="KnifeTimer" type="Timer" parent="."]
+wait_time = 0.8
+
+[node name="KnifeCount" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="NewGame" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+
+[node name="FinishedGameSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+[connection signal="game_finish" from="Player" to="." method="_show_finished_game"]
+[connection signal="game_over" from="Player" to="." method="_on_game_over"]
+[connection signal="timeout" from="DeckTimer" to="." method="_on_DeckTimer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="timeout" from="ObstacleTimer" to="." method="_show_obstacle"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_count_score"]
+[connection signal="timeout" from="CoinTimer" to="." method="_show_coin"]
+[connection signal="timeout" from="LevelUpTimer" to="." method="_on_LevelUpTimer_timeout"]
+[connection signal="timeout" from="KnifeTimer" to="." method="_on_KnifeTimer_timeout"]
+[connection signal="timeout" from="KnifeCount" to="." method="_on_KnifeCount_timeout"]
